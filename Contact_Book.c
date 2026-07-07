@@ -61,7 +61,6 @@ int main() {
             printf("\nThe input is not valid!");
             break;
         }
-        
     }
     return 0;
 }
@@ -91,4 +90,20 @@ void addContact(struct Contact *c){
     fgets(c->email,sizeof(c->email),stdin);
     c->email[strcspn(c->email,"\n")] = '\0';
     printf("\nContact added successfully!\n");
+}
+
+void displayContact(){
+    if (count == 0)
+    {
+        printf("No Contacts Found.");
+        return;
+    }
+    printf("\n===== CONTACT LIST =====\n");
+    for (int i = 0; i < count; i++)
+    {
+        printf("\nContact %d\n",i+1);
+        printf("\nName        : %s",contacts[i].name);
+        printf("\nPhone Number: %s",contacts[i].phoneNumber);
+        printf("\nE-mail      : %s",contacts[i].email);
+    }
 }
