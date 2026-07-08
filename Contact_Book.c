@@ -78,6 +78,7 @@ void menu(int *input){
 }
 
 void addContact(struct Contact *c){
+    printf("\n===== ADD CONTACT =====\n");
     while(getchar() != '\n');   // Clear leftover newline from scanf()
     printf("Please Enter the Following Information:\n");
     printf("\nName: ");
@@ -113,6 +114,12 @@ void searchContact(){
     char srcNum[20];
     int found = 0;
     int option;
+    printf("\n===== SEARCH CONTACT =====\n");
+    if (count == 0)
+    {
+        printf("No Contacts Found.");
+        return;
+    }
     printf("Please Choose your Preferred Option:\n");
     printf("1. Name\n2. Phone Number\n");
     printf("Choice: ");
@@ -174,6 +181,12 @@ void editContact(){
     char srcNum[20];
     int found = 0;
     int option;
+    printf("\n===== EDIT CONTACT =====\n");
+    if (count == 0)
+    {
+        printf("No Contacts Found.");
+        return;
+    }
     printf("Please Choose your Preferred Option:\n");
     printf("1. Name\n2. Phone Number\n");
     printf("Choice: ");
@@ -231,6 +244,80 @@ void editContact(){
                 fgets(contacts[i].email,sizeof(contacts[i].email),stdin);
                 contacts[i].email[strcspn(contacts[i].email,"\n")] = '\0';
                 printf("\nContact Updated Successfully!\n");
+                break;
+            }
+        }
+        if (found ==0)
+        {   
+            printf("\nContact Not Found!");
+        }
+        break;
+    default:
+        printf("\nInvalid Choice!");
+        break;
+    }
+}
+
+void deleteContact(){
+    char srcName[50];
+    char srcNum[20];
+    int found = 0;
+    int option;
+    printf("\n===== DELETE CONTACT =====\n");
+    if (count == 0)
+    {
+        printf("No Contacts Found.");
+        return;
+    }
+    printf("Please Choose your Preferred Option:\n");
+    printf("1. Name\n2. Phone Number\n");
+    printf("Choice: ");
+    scanf("%d",&option);
+    switch (option)
+    {
+    case 1:
+        while(getchar()!='\n');
+        printf("Enter The Name To Delete: ");
+        fgets(srcName,sizeof(srcName),stdin);
+        srcName[strcspn(srcName,"\n")] = '\0';
+        for (int i = 0; i < count; i++)
+        {
+            if(strcmp(srcName,contacts[i].name)==0)
+            {
+                found = 1;
+                // Shift all contacts one position to the left
+                for (int j = i; j < count-1; j++)
+                {
+                    contacts[j] = contacts[j+1];
+                }
+                count--;
+                printf("Contact Deleted Successfully!\n");
+                break;
+            }
+        }
+        if (found ==0)
+        {   
+            printf("\nContact Not Found!");
+        }
+        break;
+    
+    case 2:
+        while(getchar()!='\n');
+        printf("Enter The Phone Number: ");
+        fgets(srcNum,sizeof(srcNum),stdin);
+        srcNum[strcspn(srcNum,"\n")] = '\0';
+        for (int i = 0; i < count; i++)
+        {
+            if(strcmp(srcNum,contacts[i].phoneNumber)==0)
+            {
+                found = 1;
+                // Shift all contacts one position to the left
+                for (int j = i; j < count-1; j++)
+                {
+                    contacts[j] = contacts[j+1];
+                }
+                count--;
+                printf("Contact Deleted Successfully!\n");
                 break;
             }
         }
