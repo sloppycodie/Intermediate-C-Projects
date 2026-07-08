@@ -107,3 +107,140 @@ void displayContact(){
         printf("\nE-mail      : %s",contacts[i].email);
     }
 }
+
+void searchContact(){
+    char srcName[50];
+    char srcNum[20];
+    int found = 0;
+    int option;
+    printf("Please Choose your Preferred Option:\n");
+    printf("1. Name\n2. Phone Number\n");
+    printf("Choice: ");
+    scanf("%d",&option);
+    switch (option)
+    {
+    case 1:
+        while(getchar()!='\n');
+        printf("Enter The Name: ");
+        fgets(srcName,sizeof(srcName),stdin);
+        srcName[strcspn(srcName,"\n")] = '\0';
+        for (int i = 0; i < count; i++)
+        {
+            if(strcmp(srcName,contacts[i].name)==0)
+            {
+                found = 1;
+                printf("\nContact %d\n",i+1);
+                printf("Name        : %s\n",contacts[i].name);
+                printf("Phone Number: %s\n",contacts[i].phoneNumber);
+                printf("E-mail      : %s\n",contacts[i].email);
+                break;
+            }
+        }
+        if (found ==0)
+        {   
+            printf("\nContact Not Found!");
+        }
+        break;
+    
+    case 2:
+        while(getchar()!='\n');
+        printf("Enter The Phone Number: ");
+        fgets(srcNum,sizeof(srcNum),stdin);
+        srcNum[strcspn(srcNum,"\n")] = '\0';
+        for (int i = 0; i < count; i++)
+        {
+            if(strcmp(srcNum,contacts[i].phoneNumber)==0)
+            {
+                found = 1;
+                printf("\nContact %d\n",i+1);
+                printf("Name        : %s\n",contacts[i].name);
+                printf("Phone Number: %s\n",contacts[i].phoneNumber);
+                printf("E-mail      : %s\n",contacts[i].email);
+            }
+        }
+        if (found ==0)
+        {   
+            printf("\nContact Not Found!");
+        }
+        break;
+    default:
+        printf("\nInvalid Choice!");
+        break;
+    }
+}
+
+void editContact(){
+    char srcName[50];
+    char srcNum[20];
+    int found = 0;
+    int option;
+    printf("Please Choose your Preferred Option:\n");
+    printf("1. Name\n2. Phone Number\n");
+    printf("Choice: ");
+    scanf("%d",&option);
+    switch (option)
+    {
+    case 1:
+        while(getchar()!='\n');
+        printf("Enter The Name: ");
+        fgets(srcName,sizeof(srcName),stdin);
+        srcName[strcspn(srcName,"\n")] = '\0';
+        for (int i = 0; i < count; i++)
+        {
+            if(strcmp(srcName,contacts[i].name)==0)
+            {
+                found = 1;
+                printf("Enter The New Information:\n");
+                printf("\nName: ");
+                fgets(contacts[i].name,sizeof(contacts[i].name),stdin);
+                contacts[i].name[strcspn(contacts[i].name,"\n")] = '\0';
+                printf("\nPhone Number: ");
+                fgets(contacts[i].phoneNumber,sizeof(contacts[i].phoneNumber),stdin);
+                contacts[i].phoneNumber[strcspn(contacts[i].phoneNumber,"\n")] = '\0';
+                printf("\nE-mail: ");
+                fgets(contacts[i].email,sizeof(contacts[i].email),stdin);
+                contacts[i].email[strcspn(contacts[i].email,"\n")] = '\0';
+                printf("\nContact Updated Successfully!\n");
+                break;
+            }
+        }
+        if (found ==0)
+        {   
+            printf("\nContact Not Found!");
+        }
+        break;
+    
+    case 2:
+        while(getchar()!='\n');
+        printf("Enter The Phone Number: ");
+        fgets(srcNum,sizeof(srcNum),stdin);
+        srcNum[strcspn(srcNum,"\n")] = '\0';
+        for (int i = 0; i < count; i++)
+        {
+            if(strcmp(srcNum,contacts[i].phoneNumber)==0)
+            {
+                found = 1;
+                printf("Enter The New Information:\n");
+                printf("\nName: ");
+                fgets(contacts[i].name,sizeof(contacts[i].name),stdin);
+                contacts[i].name[strcspn(contacts[i].name,"\n")] = '\0';
+                printf("\nPhone Number: ");
+                fgets(contacts[i].phoneNumber,sizeof(contacts[i].phoneNumber),stdin);
+                contacts[i].phoneNumber[strcspn(contacts[i].phoneNumber,"\n")] = '\0';
+                printf("\nE-mail: ");
+                fgets(contacts[i].email,sizeof(contacts[i].email),stdin);
+                contacts[i].email[strcspn(contacts[i].email,"\n")] = '\0';
+                printf("\nContact Updated Successfully!\n");
+                break;
+            }
+        }
+        if (found ==0)
+        {   
+            printf("\nContact Not Found!");
+        }
+        break;
+    default:
+        printf("\nInvalid Choice!");
+        break;
+    }
+}
