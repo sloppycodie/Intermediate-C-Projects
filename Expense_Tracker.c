@@ -23,7 +23,7 @@ void editExpense();
 void deleteExpense();
 void statistics();
 void saveFile();//Done
-void loadFile();//Working
+void loadFile();//Done
 
 
 //Global Variables
@@ -65,9 +65,9 @@ int main() {
         case 7:
             saveFile();
             break;
-        // case 8:
-        //     loadFile();
-        //     break;
+        case 8:
+            loadFile();
+            break;
         case 9:
             printf("Exiting...\n");
             break;
@@ -130,12 +130,17 @@ void viewExpense(){
     }
     
     printf("\n========== All Expenses =========\n");
-    printf("---------------------------------------------------------\n");
+    printf("---------------------------------------------------------------\n");
     printf("%-4s %-15s %-12s %-20s %-7s\n", "No.","Date","Category","Description","Amount");
-    printf("---------------------------------------------------------\n");
+    printf("---------------------------------------------------------------\n");
     for (int i = 0; i < count; i++)
     {
-        printf("%-4d %-15s %-12s %-20s %-7f\n", i+1,expenses[i].date,expenses[i].category,expenses[i].description,expenses[i].amount);
+        printf("%-4d %-15s %-12s %-20s %-7.2f\n", 
+            i+1,
+            expenses[i].date,
+            expenses[i].category,
+            expenses[i].description,
+            expenses[i].amount);
     }
     
 }
@@ -165,43 +170,52 @@ void searchExpense(){
         printf("Enter Category: ");
         fgets(srcName,sizeof(srcName),stdin);
         srcName[strcspn(srcName,"\n")] = '\0';
-        printf("---------------------------------------------------------\n");
+        printf("---------------------------------------------------------------\n");
         printf("%-4s %-15s %-12s %-20s %-7s\n", "No.","Date","Category","Description","Amount");
-        printf("---------------------------------------------------------\n");
+        printf("---------------------------------------------------------------\n");
         for (int i = 0; i < count; i++)
         {
             if (strcmp(srcName, expenses[i].category)==0)
             {
                 found = 1;
-                printf("%-4d %-15s %-12s %-20s %7.2f\n", i+1,expenses[i].date,expenses[i].category,expenses[i].description,expenses[i].amount);
+                printf("%-4d %-15s %-12s %-20s %7.2f\n", 
+                    i+1,expenses[i].date,
+                    expenses[i].category,
+                    expenses[i].description,
+                    expenses[i].amount);
             }
         }
         if (found==0)
         {
             printf("No Results Found!\n");
         }
-        printf("---------------------------------------------------------\n");
+        printf("---------------------------------------------------------------\n");
         break;
     case 2:
         printf("Enter Date: ");
         fgets(srcDate,sizeof(srcDate),stdin);
         srcDate[strcspn(srcDate,"\n")] = '\0';
-        printf("---------------------------------------------------------\n");
+        printf("---------------------------------------------------------------\n");
         printf("%-4s %-15s %-12s %-20s %-7s\n", "No.","Date","Category","Description","Amount");
-        printf("---------------------------------------------------------\n");
+        printf("---------------------------------------------------------------\n");
         for (int i = 0; i < count; i++)
         {
             if (strcmp(srcDate, expenses[i].date)==0)
             {
                 found = 1;
-                printf("%-4d %-15s %-12s %-20s %7.2f\n", i+1,expenses[i].date,expenses[i].category,expenses[i].description,expenses[i].amount);
+                printf("%-4d %-15s %-12s %-20s %7.2f\n", 
+                    i+1,
+                    expenses[i].date,
+                    expenses[i].category,
+                    expenses[i].description,
+                    expenses[i].amount);
             }
         }
         if (found==0)
         {
             printf("No Results Found!\n");
         }
-        printf("---------------------------------------------------------\n");
+        printf("---------------------------------------------------------------\n");
         break;
     default:
         printf("Invalid Input.\n");
@@ -221,8 +235,33 @@ void saveFile(){
     printf("Saving Expenses.....\n");
     for (int i = 0; i < count; i++)
     {
-        fprintf(fp,"%s, %s, %.2f, %s\n",expenses[i].date,expenses[i].category,expenses[i].amount,expenses[i].description);
+        fprintf(fp,"%s,%s,%.2f,%s\n",
+            expenses[i].date,
+            expenses[i].category,
+            expenses[i].amount,
+            expenses[i].description);
     }
     fclose(fp);
     printf("Expenses Saved Successfully!\n");
+}
+
+void loadFile(){
+    FILE *fp;
+    fp = fopen("expenses.txt","r");
+    if (fp ==NULL)
+    {
+        printf("Couldn't Open File!\n");
+        return;
+    }
+    count=0;
+    while (count<MAX && fscanf(fp,"%14[^,],%29[^,],%f,%99[^\n]\n",
+                    expenses[count].date,
+                    expenses[count].category,
+                    &expenses[count].amount,
+                    expenses[count].description)==4)
+    {
+        count++;
+    }
+    fclose(fp);
+    printf("Files Loaded Successfully!\n");
 }
