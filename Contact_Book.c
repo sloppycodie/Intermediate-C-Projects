@@ -19,12 +19,15 @@ void addContact(struct Contact *c);
 void displayContact();
 void editContact();
 void deleteContact();
+void loadContacts();
+void saveContacts();
 
 //Universal variables
 int count = 0;
 
 int main() {
     int input;
+    loadContacts();
 
     while (1)
     {
@@ -62,12 +65,13 @@ int main() {
             break;
         }
     }
+    saveContacts();
     return 0;
 }
 
 void menu(int *input){
-    printf("\n===== CONTACT BOOK =====\n");
-    printf("\n1.Add Contact\n");
+    printf("\n\n\n===== CONTACT BOOK =====\n");
+    printf("\n1. Add Contact\n");
     printf("2. Display Contacts\n");
     printf("3. Search Contact\n");
     printf("4. Edit Contact\n");
@@ -330,4 +334,42 @@ void deleteContact(){
         printf("\nInvalid Choice!");
         break;
     }
+}
+
+void saveContacts(){
+    FILE *fp = fopen("Contacts.txt","w");
+    if (fp == NULL)
+    {
+        printf("No Data Found!\n");
+        return;
+    }
+    for (int i = 0; i < count; i++)
+    {
+        fprintf(fp,"%s,%s,%s\n",
+            contacts[i].name,
+            contacts[i].phoneNumber,
+            contacts[i].email);
+    }
+    fclose(fp);
+    printf("Contacts Saved!\n");
+}
+
+void loadContacts(){
+    FILE *fp = fopen("Contacts.txt", "r");
+    if (fp == NULL)
+    {
+        printf("No Data Found!\n");
+        return;
+    }
+    printf("Loading Contacts...\n");
+    count = 0;
+    while (count<MAX && fscanf(fp,"%49[^,],%19[^,],%49[^\n]\n",
+                contacts[count].name,
+                contacts[count].phoneNumber,
+                contacts[count].email)==3)
+    {
+        count++;
+    }
+    printf("Contacts Loaded Successfully!\n");
+    fclose(fp);
 }
