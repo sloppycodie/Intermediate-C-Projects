@@ -19,9 +19,8 @@ void printMenu(int *choice);//Done
 void addExpense(struct Expense *exp);//Done
 void viewExpense();//Done
 void searchExpense();//Done
-void editExpense();
-void deleteExpense();
-void statistics();
+void editExpense();//Done
+void deleteExpense();//Done
 void saveFile();//Done
 void loadFile();//Done
 
@@ -53,14 +52,14 @@ int main() {
         case 3:
             searchExpense();
             break;
-        // case 4:
-        //     editExpense();
-        //     break;
-        // case 5:
-        //     deleteExpense();
-        //     break;
+        case 4:
+            editExpense();
+            break;
+        case 5:
+            deleteExpense();
+            break;
         // case 6:
-        //     statistics();
+        //     statistics(); //I will work on it if i am bored in the future
         //     break;
         case 7:
             saveFile();
@@ -77,7 +76,7 @@ int main() {
         }
     }
     
-
+    saveFile();
     return 0;
 }
 
@@ -148,7 +147,7 @@ void viewExpense(){
 void searchExpense(){
     int srcChoice;
     int found = 0;
-    char srcName[50];
+    char srcCategory[50];
     char srcDate[15];
     if (count == 0)
     {
@@ -168,14 +167,14 @@ void searchExpense(){
     {
     case 1:
         printf("Enter Category: ");
-        fgets(srcName,sizeof(srcName),stdin);
-        srcName[strcspn(srcName,"\n")] = '\0';
+        fgets(srcCategory,sizeof(srcCategory),stdin);
+        srcCategory[strcspn(srcCategory,"\n")] = '\0';
         printf("---------------------------------------------------------------\n");
         printf("%-4s %-15s %-12s %-20s %-7s\n", "No.","Date","Category","Description","Amount");
         printf("---------------------------------------------------------------\n");
         for (int i = 0; i < count; i++)
         {
-            if (strcmp(srcName, expenses[i].category)==0)
+            if (strcmp(srcCategory, expenses[i].category)==0)
             {
                 found = 1;
                 printf("%-4d %-15s %-12s %-20s %7.2f\n", 
@@ -264,4 +263,176 @@ void loadFile(){
     }
     fclose(fp);
     printf("Files Loaded Successfully!\n");
+}
+
+void editFile(){
+    int srcChoice;
+    int found = 0;
+    char srcCategory[50];
+    char srcDate[15];
+    if (count == 0)
+    {
+        printf("No Data Found!\n");
+        return;
+    }
+    
+    while(getchar() != '\n');
+    printf("\n========== Edit Expense =========\n");
+    printf("Choose Your Preferred Option:\n");
+    printf("1. Category\n");
+    printf("2. Date\n");
+    printf("Choice: ");
+    scanf("%d",&srcChoice);
+    while(getchar()!='\n');
+    switch (srcChoice)
+    {
+    case 1:
+        printf("Enter Category: ");
+        fgets(srcCategory,sizeof(srcCategory),stdin);
+        srcCategory[strcspn(srcCategory,"\n")] = '\0';
+        for (int i = 0; i < count; i++)
+        {
+            if (strcmp(srcCategory, expenses[i].category)==0)
+            {
+                found = 1;
+                printf("\nDate (DD/MM/YYYY): ");
+                fgets(expenses[i].date,sizeof(expenses[i].date),stdin);
+                expenses[i].date[strcspn(expenses[i].date,"\n")] = '\0';
+                printf("\nCategory: ");
+                fgets(expenses[i].category,sizeof(expenses[i].category),stdin);
+                expenses[i].category[strcspn(expenses[i].category,"\n")] = '\0';
+                do
+                {
+                    printf("\nAmount: ");
+                    scanf("%f", &expenses[i].amount);
+                    while(getchar()!='\n');
+                    if (expenses[i].amount <0)
+                    {
+                        printf("Amount Can not Be Negative!");
+                    }
+                } while (expenses[i].amount<0);
+                printf("\nDescription: ");
+                fgets(expenses[i].description,sizeof(expenses[i].description),stdin);
+                expenses[i].description[strcspn(expenses[i].description,"\n")] = '\0';
+                printf("\nExpense Updated Successfully!\n");
+            }
+        }
+        if (found==0)
+        {
+            printf("No Results Found!\n");
+        }
+        break;
+    case 2:
+        printf("Enter Date: ");
+        fgets(srcDate,sizeof(srcDate),stdin);
+        srcDate[strcspn(srcDate,"\n")] = '\0';
+        for (int i = 0; i < count; i++)
+        {
+            if (strcmp(srcDate, expenses[i].date)==0)
+            {
+                found = 1;
+                printf("\nDate (DD/MM/YYYY): ");
+                fgets(expenses[i].date,sizeof(expenses[i].date),stdin);
+                expenses[i].date[strcspn(expenses[i].date,"\n")] = '\0';
+                printf("\nCategory: ");
+                fgets(expenses[i].category,sizeof(expenses[i].category),stdin);
+                expenses[i].category[strcspn(expenses[i].category,"\n")] = '\0';
+                do
+                {
+                    printf("\nAmount: ");
+                    scanf("%f", &expenses[i].amount);
+                    while(getchar()!='\n');
+                    if (expenses[i].amount <0)
+                    {
+                        printf("Amount Can not Be Negative!");
+                    }
+                } while (expenses[i].amount<0);
+                printf("\nDescription: ");
+                fgets(expenses[i].description,sizeof(expenses[i].description),stdin);
+                expenses[i].description[strcspn(expenses[i].description,"\n")] = '\0';
+                printf("\nExpense Updated Successfully!\n");
+            }
+        }
+        if (found==0)
+        {
+            printf("No Results Found!\n");
+        }
+        break;
+    default:
+        printf("Invalid Input.\n");
+        break;
+    }
+}
+
+void deleteExpense(){
+    int srcChoice;
+    int found = 0;
+    char srcCategory[50];
+    char srcDescription[100];
+    if (count == 0)
+    {
+        printf("No Data Found!\n");
+        return;
+    }
+    
+    while(getchar() != '\n');
+    printf("\n========== Delete Expense =========\n");
+    printf("Choose Your Preferred Option:\n");
+    printf("1. Category\n");
+    printf("2. Description\n");
+    printf("Choice: ");
+    scanf("%d",&srcChoice);
+    while(getchar()!='\n');
+    switch (srcChoice)
+    {
+    case 1:
+        printf("Enter Category: ");
+        fgets(srcCategory,sizeof(srcCategory),stdin);
+        srcCategory[strcspn(srcCategory,"\n")] = '\0';
+        for (int i = 0; i < count; i++)
+        {
+            if (strcmp(srcCategory, expenses[i].category)==0)
+            {
+                found = 1;
+                for (int j = i; j < count-1; j++)
+                {
+                    expenses[j] = expenses[j+1];
+                }
+                count--;
+                printf("Expense Deleted Successfully!\n");
+                break;
+            }
+        }
+        if (found==0)
+        {
+            printf("No Results Found!\n");
+        }
+        break;
+    case 2:
+        printf("Enter Description: ");
+        fgets(srcDescription,sizeof(srcDescription),stdin);
+        srcDescription[strcspn(srcDescription,"\n")] = '\0';
+        for (int i = 0; i < count; i++)
+        {
+            if (strcmp(srcDescription, expenses[i].description)==0)
+            {
+                found = 1;
+                for (int j = i; j < count-1; j++)
+                {
+                    expenses[j] = expenses[j+1];
+                }
+                count--;
+                printf("Expense Deleted Successfully!\n");
+                break;
+            }
+        }
+        if (found==0)
+        {
+            printf("No Results Found!\n");
+        }
+        break;
+    default:
+        printf("Invalid Input.\n");
+        break;
+    }
 }
